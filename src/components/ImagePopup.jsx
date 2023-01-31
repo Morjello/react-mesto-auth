@@ -3,7 +3,7 @@ function ImagePopup({ card, onClose }) {
     <div className={`popup popup-image ${card && "popup_opened"}`}>
       <div className="popup-image__container">
         <img src={card?.link} alt="Фотография" className="popup-image__photo" />
-        <p className="popup-image__text"></p>
+        <p className="popup-image__text">{card?.name}</p>
         <button
           type="button"
           className="popup__close"

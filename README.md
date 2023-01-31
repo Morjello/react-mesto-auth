@@ -1,7 +1,62 @@
-# Здесь будет ваш проект на Реакте с авторизацией и регистрацией
+# **Проект: Место**
 
-Используйте ваши предыдущие наработки по проекту Mesto. Это может быть работа 11-го спринта или его улучшенная версия после 2-х последних спринтов. 
+## _Место_ - это одностраничный сайт, в котором реализована возможность:
 
-Все запросы на авторизацию, регистрацию и проверку токена должны работать через сервис `https://auth.nomoreparties.co`. Остальные запросы, не относящиеся к этой проектной работе могут быть к бэкенду из предыдущих спринтов.
+### Редактирования профиля
 
-Успехов!
+### Добавления, удаления и просмотр постов
+
+### Регистрация и авторизация пользователя
+
+## В работе используются такие технологии, как:
+
+### React, react-router-dom
+
+### JS
+
+### HTML
+
+### CSS
+
+### ООП
+
+### Webpack
+
+### Адаптивная верстка:
+
+```css
+@media screen and (min-width: 768px) {
+  .cool {
+    width: calc(100% + 32px);
+  }
+}
+```
+
+### Открытие окна редактирования:
+
+```javascript
+const togglePopup = function () {
+  popup.classList.toggle("popup_opened");
+};
+
+openPopup.addEventListener("click", togglePopup);
+closeIcon.addEventListener("click", togglePopup);
+```
+
+### Добавление новых карточек:
+
+```javascript
+function addCard(item) {
+  const cardTemplate = document.querySelector(".template").content;
+  const cardElement = cardTemplate
+    .querySelector(".cards__card")
+    .cloneNode(true);
+  cardElement.querySelector(".cards__text").textContent = item.title;
+  cardElement.querySelector("img").src = item.link;
+  cardsTable.prepend(cardElement);
+}
+```
+
+### Ссылка проекта на GitHub Pages:
+
+https://morjello.github.io/mesto-react/
