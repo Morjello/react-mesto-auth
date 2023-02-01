@@ -1,4 +1,4 @@
-function InfoTooltip({ isOpen, onClose, infoText, infoImage }) {
+function InfoTooltip({ isOpen, onClose, infoTooltipText, infoTooltipImage }) {
   return (
     <div className="root__wrapper">
       <div className={`popup ${isOpen && "popup_opened"}`}>
@@ -6,10 +6,10 @@ function InfoTooltip({ isOpen, onClose, infoText, infoImage }) {
           <div
             className="info-tooltip__image"
             style={{
-              backgroundImage: `url(${infoImage})`,
+              backgroundImage: `url(${infoTooltipImage})`,
             }}
           ></div>
-          <h2 className="info-tooltip__text">{infoText}</h2>
+          <h2 className="info-tooltip__text">{infoTooltipText}</h2>
           <button
             type="button"
             className="popup__close"

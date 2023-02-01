@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { api } from "../utils/Api";
 import { authApi } from "../utils/AuthApi";
@@ -16,8 +15,9 @@ import DeletePlacePopup from "./DeletePlacePopup";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from "./ProtectedRoute";
-import SuccessfulRegistrationPopup from "./SuccessfulRegistrationPopup";
-import FailRegistrationPopup from "./FailRegistrationPopup";
+import InfoTooltip from "./InfoTooltip";
+import union from "../images/Union.jpg";
+import unionFail from "../images/UnionFail.png";
 
 function App() {
   const navigate = useNavigate();
@@ -28,9 +28,9 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isDeletePlacePopupOpen, setIsDeletePlacePopupOpen] = useState(false);
-  const [isRegistrationSuccessful, setIsRegistrationSuccessful] =
-    useState(false);
-  const [isRegistrationFail, setIsRegistrationFail] = useState(false);
+  const [infoTooltipText, setInfoTooltipText] = useState("");
+  const [infoTooltipImage, setInfoTooltipImage] = useState("");
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   // стейт данных пользователя
   const [currentUser, setCurrentUser] = useState({});
   // стейт карточек
@@ -55,14 +55,17 @@ function App() {
     setIsDeletePlacePopupOpen(true);
   }
 
+  function openInfoTooltipPopup() {
+    setIsInfoTooltipOpen(true);
+  }
+
   // закрытие попапов
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsDeletePlacePopupOpen(false);
-    setIsRegistrationFail(false);
-    setIsRegistrationSuccessful(false);
+    setIsInfoTooltipOpen(false);
     setSelectedCard(null);
   }
 
@@ -157,6 +160,12 @@ function App() {
 
   // получение данных пользователя
   useEffect(() => {
+    if (loggedIn) {
+      getUserData();
+    }
+  }, [loggedIn]);
+
+  function getUserData() {
     Promise.all([api.getProfileInfo(), api.getInitialCards()])
       .then(([userData, cardsData]) => {
         setCurrentUser(userData);
@@ -165,18 +174,22 @@ function App() {
       .catch((err) => {
         console.log("Ошибка загрузки данных пользователя", err);
       });
-  }, []);
+  }
 
   // регистрация пользователя
   function handleRegisterUser({ password, email }) {
     authApi
       .register(password, email)
       .then(() => {
-        setIsRegistrationSuccessful(true);
+        setInfoTooltipText("Вы успешно зарегистрировались!");
+        setInfoTooltipImage(union);
+        openInfoTooltipPopup();
         navigate("/sign-in", { replace: true });
       })
       .catch((err) => {
-        setIsRegistrationFail(true);
+        setInfoTooltipText("Что-то пошло не так! Попробуйте ещё раз.");
+        setInfoTooltipImage(unionFail);
+        openInfoTooltipPopup();
         console.log("Регистрация не удалась", err);
       });
   }
@@ -189,10 +202,16 @@ function App() {
         if (data.token) {
           setLoggedIn(true);
           setUserEmail(email);
+          setInfoTooltipText("Вы успешно авторизовались!");
+          setInfoTooltipImage(union);
+          openInfoTooltipPopup();
           navigate("/", { replace: true });
         }
       })
       .catch((err) => {
+        setInfoTooltipText("Что-то пошло не так! Попробуйте ещё раз.");
+        setInfoTooltipImage(unionFail);
+        openInfoTooltipPopup();
         console.log("Ошибка входа", err);
       });
   }
@@ -285,13 +304,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <SuccessfulRegistrationPopup
-          isOpen={isRegistrationSuccessful}
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
-        />
-        <FailRegistrationPopup
-          isOpen={isRegistrationFail}
-          onClose={closeAllPopups}
+          infoTooltipImage={infoTooltipImage}
+          infoTooltipText={infoTooltipText}
         />
       </CardContext.Provider>
     </CurrentUserContext.Provider>

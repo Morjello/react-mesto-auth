@@ -47,10 +47,10 @@ function Main({
       </section>
       <section className="cards">
         <ul className="cards__table">
-          {cards.map((card, _id) => {
+          {cards.map((card) => {
             return (
               <Card
-                key={_id}
+                key={card._id}
                 setCard={setCard}
                 card={card}
                 onCardClick={cardClick}

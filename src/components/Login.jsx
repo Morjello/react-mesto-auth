@@ -1,7 +1,7 @@
 import LoginForm from "./LoginForm";
 import React, { useState } from "react";
 
-function Login({ onInfoTooltip, onLoginUser }) {
+function Login({ onLoginUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +30,6 @@ function Login({ onInfoTooltip, onLoginUser }) {
       name="login"
       submitButtonText="Войти"
       onSubmit={handleSubmit}
-      onInfoTooltip={onInfoTooltip}
     >
       <div className="popup__label">
         <input

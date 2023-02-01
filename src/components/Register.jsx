@@ -1,7 +1,7 @@
 import LoginForm from "./LoginForm";
 import React, { useState } from "react";
 
-function Register({ onInfoTooltip, onRegisterUser }) {
+function Register({ onRegisterUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -31,7 +31,6 @@ function Register({ onInfoTooltip, onRegisterUser }) {
       submitButtonText="Зарегистрироваться"
       onSubmit={handleSubmit}
       buttonText="Уже зарегистрированы? Войти"
-      onInfoTooltip={onInfoTooltip}
     >
       <div className="popup__label">
         <input
